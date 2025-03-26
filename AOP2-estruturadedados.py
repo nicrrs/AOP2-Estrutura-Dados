@@ -77,15 +77,14 @@ class FilaCircular: #classe que representa a fila circular
 
     def mostrarFila(self): #exibir a fila circular
         if self.inicio is None:
-            print(self.inicio.dado, end=' ')
+            print(self.inicio.dado)
             return
         nodoTemporario = self.inicio
         while(True):
-            print(nodoTemporario.dado, end=' ')
+            print(nodoTemporario.dado)
             nodoTemporario = nodoTemporario.proximo
             if nodoTemporario == self.inicio:
                 break
-        print()
 
 listaClienteContas = Cliente("Lista de Clientes", []) #cria a lista de clientes
 
