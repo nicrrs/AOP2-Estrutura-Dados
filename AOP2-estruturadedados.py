@@ -33,30 +33,60 @@ class Cliente(): #classe que representa o cliente
             ultimoNodo.proximo = novoNodo
         self.tamanhoDaLista += 1
     
-    def adicionarValor(self, nome, valorDaConta):
+    def adicionarValor(self, nome, valorDaConta): #adiciona o valor da conta do cliente
         atual = self.inicio
         while atual is not None:
             if atual.dado == nome:
                 atual.valorDaConta.append(valorDaConta)
                 break
             atual = atual.proximo
+    
+    def calculaMedia(self): #calcula a média dos valores da conta de cada cliente
+        medias = {}
+        atual = self.inicio
+        while atual is not None:
+            if atual.valorDaConta:
+                medias[atual.dado] = sum(atual.valorDaConta) / len(atual.valorDaConta)
+            else:
+                medias[atual.dado] = 0
+            atual = atual.proximo
+        return medias
 
     def mostrarListaClientes(self): #exibir a lista de clientes
         mostrarNodos = ''
         nodoAtual = self.inicio
         while nodoAtual != None:
-            mostrarNodos += f'{nodoAtual.dado} -> '
+            mostrarNodos += f'{nodoAtual.dado} (Valores: {nodoAtual.valorDaConta}) -> '
             nodoAtual = nodoAtual.proximo
         print(mostrarNodos)
 
 
-listaClienteContas = Cliente("Lista de Clientes", [])
+listaClienteContas = Cliente("Lista de Clientes", []) #cria a lista de clientes
 
-for i in range(1, 11): #adicionando os clientes na lista
+for i in range(1, 11): #adiciona os clientes na lista
     listaClienteContas.adicionarClientesFinal(f"c{i}")
 
+valores = {
+    "c1": [1000, 900, 800, 700, 600, 500, 400, 300, 200, 100],
+    "c2": [1000, 900, 800, 700, 600, 500, 400, 300, 200],
+    "c3": [1000, 900, 800, 700, 600, 500, 400, 300],
+    "c4": [1000, 900, 800, 700, 600, 500, 400],
+    "c5": [1000, 900, 800, 700, 600, 500],
+    "c6": [1000, 900, 800, 700, 600],
+    "c7": [1000, 900, 800, 700],
+    "c8": [1000, 900, 800],
+    "c9": [1000, 900],
+    "c10":[1000]
+}
 
-listaClienteContas.mostrarListaClientes()
+for cliente, valoresConta in valores.items(): #adicionando os valores na lista de clientes
+    for valor in valoresConta:
+        listaClienteContas.adicionarValor(cliente, valor)
+
+#listaClienteContas.mostrarListaClientes() #para exibir a lista de clientes
+
+medias = listaClienteContas.calculaMedia() #calcula e exibe a média dos valores
+print("Médias dos clientes:", medias)
 
 
 
