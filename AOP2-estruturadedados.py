@@ -10,8 +10,6 @@ class Nodo: #classe que representa o nó da lista
     def setProximo(self, proximoNodo):
         self.proximo = proximoNodo
     
-#Primeira parte incluindo os clientes na lista: 
-
 class Cliente(): #classe que representa o cliente
     def __init__(self, nome, valorDaConta, nodo = None):
         self.nome = nome 
@@ -45,8 +43,8 @@ class Cliente(): #classe que representa o cliente
         medias = {}
         atual = self.inicio
         while atual is not None:
-            if atual.valorDaConta:
-                medias[atual.dado] = sum(atual.valorDaConta) / len(atual.valorDaConta)
+            if atual.valorDaConta: 
+                medias[atual.dado] = sum(atual.valorDaConta) / len(atual.valorDaConta) #calcula a média
             else:
                 medias[atual.dado] = 0
             atual = atual.proximo
@@ -60,6 +58,34 @@ class Cliente(): #classe que representa o cliente
             nodoAtual = nodoAtual.proximo
         print(mostrarNodos)
 
+class FilaCircular: #classe que representa a fila circular
+    def __init__(self, media):
+        self.inicio = None
+        self.media = None
+    
+    def adicionarMedia(self, media): #adiciona a média na fila circular
+        novoNodo = Nodo(media)
+        if self.inicio is None:
+            self.inicio = novoNodo
+            novoNodo.proximo = novoNodo
+        else:
+            nodoTemporario = self.inicio
+            while (nodoTemporario.proximo != self.inicio):
+                nodoTemporario = nodoTemporario.proximo
+            nodoTemporario.proximo = novoNodo
+            novoNodo.proximo = self.inicio
+
+    def mostrarFila(self): #exibir a fila circular
+        if self.inicio is None:
+            print(self.inicio.dado, end=' ')
+            return
+        nodoTemporario = self.inicio
+        while(True):
+            print(nodoTemporario.dado, end=' ')
+            nodoTemporario = nodoTemporario.proximo
+            if nodoTemporario == self.inicio:
+                break
+        print()
 
 listaClienteContas = Cliente("Lista de Clientes", []) #cria a lista de clientes
 
@@ -86,11 +112,11 @@ for cliente, valoresConta in valores.items(): #adicionando os valores na lista d
 #listaClienteContas.mostrarListaClientes() #para exibir a lista de clientes
 
 medias = listaClienteContas.calculaMedia() #calcula e exibe a média dos valores
-print("Médias dos clientes:", medias)
+#print("Médias dos clientes:", medias)
 
+filaCircular = FilaCircular(len(medias)) #cria a fila circular
+for media in sorted(medias.values()): #adiciona a média na fila circular em ordem crescente
+    filaCircular.adicionarMedia(media)
 
-
-#>>Percorrer a lista a fim de descobrir quantas ocorrências tem de cada cliente e assim  computar a média para cada cliente.  
-#>>Inserir a média de conta computada de cada cliente, já ordenada em ordem crescente de valor em uma fila circular.
-#>>Ler a Fila Circular e exibir a média de cada cliente, uma por linha. Imprimir somente os valores.
-
+print("Média dos valores em ordem crescente:")
+filaCircular.mostrarFila() #exibe a fila circular com as médias dos valores 
